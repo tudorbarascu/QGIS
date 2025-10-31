@@ -15,7 +15,7 @@
       "returns": "19"
     },{
       "expression": "week(now())",
-      "returns": "the current week"
+      "returns": "the current week of the year"
      }]
   }, {
     "variant": "Interval variant",
