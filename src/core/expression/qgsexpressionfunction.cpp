@@ -2691,6 +2691,22 @@ static QVariant fcnStrpos( const QVariantList &values, const QgsExpressionContex
   return string.indexOf( QgsExpressionUtils::getStringValue( values.at( 1 ), parent ) ) + 1;
 }
 
+static QVariant fcnUnaccent( const QVariantList &values,
+                             const QgsExpressionContext *,
+                             QgsExpression *parent,
+                             const QgsExpressionNodeFunction * )
+{
+  if ( values.isEmpty() )
+  {
+    parent->setEvalErrorString( QObject::tr( "Function unaccent requires one argument" ) );
+    return QVariant();
+  }
+
+  const QString input = values.at( 0 ).toString();
+  return QgsStringUtils::unaccent( input );
+}
+
+
 static QVariant fcnRight( const QVariantList &values, const QgsExpressionContext *, QgsExpression *parent, const QgsExpressionNodeFunction * )
 {
   QString string = QgsExpressionUtils::getStringValue( values.at( 0 ), parent );
@@ -8717,6 +8733,7 @@ const QList<QgsExpressionFunction *> &QgsExpression::Functions()
         << new QgsStaticExpressionFunction( QStringLiteral( "upper" ), QgsExpressionFunction::ParameterList() << QgsExpressionFunction::Parameter( QStringLiteral( "string" ) ), fcnUpper, QStringLiteral( "String" ) )
         << new QgsStaticExpressionFunction( QStringLiteral( "title" ), QgsExpressionFunction::ParameterList() << QgsExpressionFunction::Parameter( QStringLiteral( "string" ) ), fcnTitle, QStringLiteral( "String" ) )
         << new QgsStaticExpressionFunction( QStringLiteral( "trim" ), QgsExpressionFunction::ParameterList() << QgsExpressionFunction::Parameter( QStringLiteral( "string" ) ), fcnTrim, QStringLiteral( "String" ) )
+        << new QgsStaticExpressionFunction( QStringLiteral( "unaccent" ), { QgsExpressionFunction::Parameter( QStringLiteral( "string" ) ) }, fcnUnaccent, QStringLiteral( "String" ) )
         << new QgsStaticExpressionFunction( QStringLiteral( "ltrim" ), QgsExpressionFunction::ParameterList()
                                             << QgsExpressionFunction::Parameter( QStringLiteral( "string" ) )
                                             << QgsExpressionFunction::Parameter( QStringLiteral( "characters" ), true, QStringLiteral( " " ) ), fcnLTrim, QStringLiteral( "String" ) )
